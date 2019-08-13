@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Results for: <b>{{ request.GET.q }}</b></p>
+    <hr>
+    {% for post in posts %}
+        {% include "posts/snippets/post_card.html" with home_page=True %}
+    {% endfor %}
+{% endblock %}

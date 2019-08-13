@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    {% for post in posts %}
+        <article class="media content-section"">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">{{ post.timestamp|date:"F d, Y" }}</small>
+            </div>
+              <p class="article-content">{{ post.content }}</p>
+            <div>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'posts:detail' post.id %}">Comment</a>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock %}

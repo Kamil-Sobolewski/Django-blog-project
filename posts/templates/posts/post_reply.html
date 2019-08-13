@@ -1,0 +1,6 @@
+{% load crispy_forms_tags %}
+<form method="POST" action="{{ action_url }}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Reply">
+</form>

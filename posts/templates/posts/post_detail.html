@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% include "posts/snippets/post_card.html" with detail=True %}
+    {% include 'posts/post_reply.html' with action_url=action_url %}
+    <hr>
+    {% for post in post.replies.all %}
+        {% include "posts/snippets/post_card.html" %}
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% include "posts/snippets/post_form.html" with action_url=action_url %}
+  <hr>
+
+  {% for post in posts %}
+    {% include "posts/snippets/post_card.html" with home_page=True %}
+  {% endfor %}
+
+  {% if is_paginated %}
+    {% if page_obj.has_previous %}
+      <a class="btn btn-outline-info mb-4" href="?page=1">&laquo;</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+    {% else %}
+      <a class="btn btn-outline-info mb-4 disabled">&laquo;</a>
+      <a class="btn btn-outline-info mb-4 disabled">&lsaquo;</a>
+    {% endif %}
+
+    {% for num in paginator.page_range %}
+      {% if page_obj.number == num %}
+        <a class="btn btn-info mb-4 disabled">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ paginator.num_pages }}">&raquo;</a>
+    {% else %}
+      <a class="btn btn-outline-info mb-4 disabled">&rsaquo;</a>
+      <a class="btn btn-outline-info mb-4 disabled">&raquo;</a>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block script %}
+  <script>
+
+    $(function() {
+      generateHashLink()
+    });
+
+    function generateHashLink(){
+      $(".post-body").each(function(data){
+        var currentText = $(this).html()
+        var newText = currentText.replace(/(^|\s)#([a-z\d-]+)/ig, "$1<a href='/tag/$2/'>#$2</a>");
+        $(this).html(newText);
+      });
+    };
+
+  </script>
+{% endblock %}
